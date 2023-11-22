@@ -1,0 +1,4 @@
+*.zip
+.metals
+.vscode
+venv
