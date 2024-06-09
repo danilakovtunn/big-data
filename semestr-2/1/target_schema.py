@@ -26,14 +26,14 @@ class Dns_mapper(MRJob):
         display['Тип матрицы'] = re.findall(r'(.*)-', entity['Тип'])[0]
         ans['Экран'] = display
 
-        size['Высота'] = entity['Высота без подставки']
-        size['Ширина'] = entity['Ширина без подставки']
-        size['Глубина'] = entity['Толщина без подставки']
+        size['Высота'] = float(re.findall(r'\d+(?:\.\d+)?', entity['Высота без подставки'])[0])
+        size['Ширина'] = float(re.findall(r'\d+(?:\.\d+)?', entity['Ширина без подставки'])[0])
+        size['Глубина'] = float(re.findall(r'\d+(?:\.\d+)?', entity['Толщина без подставки'])[0])
         if 'Вес без подставки' in entity:
             weight = entity['Вес без подставки']
         else:
             weight = entity['Вес без подставки, измерено в ДНС']
-        size['Вес'] = weight
+        size['Вес'] = float(re.findall(r'\d+(?:\.\d+)?', weight)[0])
         ans['Габариты'] = size
 
         interface['Количество HDMI'] = int(entity['Количество HDMI портов'])
@@ -73,13 +73,14 @@ class Eldorado_mapper(MRJob):
         display['Тип матрицы'] = entity['Технология']
         ans['Экран'] = display
 
-        size['Высота'] = entity['Высота']
-        size['Ширина'] = entity['Ширина']
-        size['Глубина'] = entity['Глубина']
+        size['Высота'] = float(re.findall(r'\d+(?:\.\d+)?', entity['Высота'])[0]) * 10
+        size['Ширина'] = float(re.findall(r'\d+(?:\.\d+)?', entity['Ширина'])[0]) * 10
+        size['Глубина'] = float(re.findall(r'\d+(?:\.\d+)?', entity['Глубина'])[0]) * 10
         if 'Вес без подставки' in entity:
-            size['Вес'] = entity['Вес без подставки']
+            weight = entity['Вес без подставки']
         else:
-            size['Вес'] = entity['Вес']
+            weight = entity['Вес']
+        size['Вес'] = float(re.findall(r'\d+(?:\.\d+)?', weight)[0])
         ans['Габариты'] = size
 
         interface['Количество HDMI'] = int(entity['HDMI'])
